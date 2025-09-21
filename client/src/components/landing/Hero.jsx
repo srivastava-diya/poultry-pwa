@@ -29,7 +29,7 @@ const Hero = () => {
           Welcome to PoultryNexus
         </h1>
         <p className="text-lg md:text-xl max-w-2xl mb-8  text-white">
-          Smart farm management and biosecurity for a healthier future.
+          Smart farm management combined with strong biosecurity practices ensures healthier animals, sustainable agriculture, and a resilient future for farmers, consumers, and the environment through care.
         </p>
         <div className="flex gap-4 justify-center">
           <a

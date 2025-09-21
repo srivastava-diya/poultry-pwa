@@ -3,7 +3,7 @@ const Contact = () => (
   <section id="contact" className="py-16 px-6 md:px-16 text-center">
     <h2 className="text-3xl font-bold mb-6 text-gray-800">Contact Us</h2>
     <p className="max-w-2xl mx-auto text-gray-600 mb-6">
-      Have questions? Reach out to us and we’ll be happy to help.
+      Have questions? Reach out to us and we will be happy to help.
     </p>
     <a
       href="mailto:support@poultrynexus.com"
