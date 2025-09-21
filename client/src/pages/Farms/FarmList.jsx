@@ -1,33 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { farmService } from "../../services/farmService";
+// src/pages/FarmList.jsx
+import React from "react";
+import { Link } from "react-router-dom";
+import useFetch from "../../hooks/useFetch.js";
 
 const FarmList = () => {
-  const [farms, setFarms] = useState([]);
+  const { data: farms, loading, error, refetch } = useFetch("/api/farms");
 
-  useEffect(() => {
-    const fetchFarms = async () => {
-      try {
-        const data = await farmService.getFarms();
-        setFarms(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchFarms();
-  }, []);
+  if (loading) return <p className="p-4">Loading farms...</p>;
+  if (error) return <p className="p-4 text-red-500">{error}</p>;
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Farms</h1>
-      <div className="grid grid-cols-3 gap-4">
-        {farms.map((farm) => (
-          <div key={farm._id} className="p-4 bg-white rounded shadow">
-            <h2 className="font-bold">{farm.name}</h2>
-            <p>Zip Code: {farm.zipCode}</p>
-            <p>Owner: {farm.owner?.name || "N/A"}</p>
-          </div>
-        ))}
-      </div>
+    <div className="p-6">
+      <h2 className="text-2xl font-bold mb-4">Farms</h2>
+      {farms && farms.length > 0 ? (
+        <ul className="space-y-3">
+          {farms.map((farm) => (
+            <li
+              key={farm._id}
+              className="p-4 border rounded-lg shadow-sm flex justify-between items-center"
+            >
+              <div>
+                <p className="font-semibold">{farm.name}</p>
+                <p className="text-sm text-gray-600">Zip: {farm.zipCode}</p>
+              </div>
+              <Link
+                to={`/farms/${farm._id}`}
+                className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+              >
+                View
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No farms found.</p>
+      )}
     </div>
   );
 };

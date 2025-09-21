@@ -1,39 +1,62 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+// src/context/AuthContext.jsx
+import { createContext, useContext, useState, useEffect } from "react";
+import { authService } from "../services/authService.js";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    try {
-      const savedUser = localStorage.getItem("user");
-      if (!savedUser || savedUser === "undefined") return null;
-      return JSON.parse(savedUser);
-    } catch (err) {
-      console.error("Error parsing user from localStorage:", err);
-      return null;
-    }
-  });
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
 
-  const login = (userData) => {
-    setUser(userData);
+  // Persist user and token from localStorage
+  useEffect(() => {
+  const storedToken = localStorage.getItem("token");
+  const storedUser = localStorage.getItem("user");
+  if (storedToken && storedUser && storedUser !== "undefined") {
+    setToken(storedToken);
+    setUser(JSON.parse(storedUser));
+  }
+}, []);
+
+  // Login
+  const login = async (email, password) => {
     try {
-      localStorage.setItem("user", JSON.stringify(userData));
-    } catch (err) {
-      console.error("Error saving user to localStorage:", err);
+      const data = await authService.login({ email, password });
+      const token = data.token; // backend returns token
+      setToken(token);
+      localStorage.setItem("token", token);
+
+      // Optionally fetch user profile
+      const profile = await authService.getMe(token);
+      setUser(profile);
+      localStorage.setItem("user", JSON.stringify(profile));
+    } catch (error) {
+      console.error("Login failed:", error);
+      throw error;
     }
   };
 
+  // Logout
   const logout = () => {
     setUser(null);
+    setToken(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  };
+
+  // Register
+  const register = async ({ name, email, password, role, farmId }) => {
     try {
-      localStorage.removeItem("user");
-    } catch (err) {
-      console.error("Error removing user from localStorage:", err);
+      const data = await authService.register({ name, email, password, role, farmId });
+      return data;
+    } catch (error) {
+      console.error("Registration failed:", error);
+      throw error;
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );

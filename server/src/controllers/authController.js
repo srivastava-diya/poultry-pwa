@@ -5,7 +5,7 @@ import USER from '../models/User.js';
 // Register a new user (e.g., owner, supervisor, vet)
 export const registerUser = async (req, res) => {
   try {
-    const { name, email, passwordHash, role, farmId } = req.body;
+    const { name, email, passwordHash:password, role, farmId } = req.body;
 
     // Check if user already exists
     const existingUser = await USER.findOne({ email });
@@ -13,7 +13,7 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    const user = new USER({ name, email, passwordHash, role, farmId });
+    const user = new USER({ name, email, passwordHash:password, role, farmId });
     await user.save();
 
     res.status(201).json({ message: 'User registered successfully' });

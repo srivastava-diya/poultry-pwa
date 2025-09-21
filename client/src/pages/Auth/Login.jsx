@@ -1,75 +1,59 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { authService } from "../../services/authService";
-import background_img from "../../assets/loginPage_bg.png";
+import Navbar from "../../components/landing/Navbar";
+import Footer from "../../components/landing/Footer";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const validateEmail = (email) => {
-    // Simple email regex
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // Reset error
-
-    // Frontend validations
-    if (!email || !password) {
-      setError("Email and password are required.");
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      return;
-    }
-
     try {
-      const res = await authService.login({ email, password });
-      login(res.user);
+      await login(email, password);
       navigate("/dashboard");
     } catch (err) {
-      setError(err.message || "Login failed");
+      setError(err.response?.data?.message || "Login failed");
     }
   };
 
   return (
-    <div
-      className="flex items-center justify-center h-screen bg-gray-100"
-      style={{ backgroundImage: `url(${background_img})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-    >
-      <form onSubmit={handleSubmit} className="bg-white p-12 rounded shadow-md w-120">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+    <>
+    <Navbar/>
+    <div className="flex h-screen items-center justify-center bg-gray-100">
+
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow w-96">
+        <h2 className="text-2xl font-bold mb-6">Login</h2>
         <input
           type="email"
           placeholder="Email"
-          className="w-full p-2 mb-4 border rounded"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="w-full p-2 mb-4 border rounded"
+          required
         />
         <input
           type="password"
           placeholder="Password"
-          className="w-full p-2 mb-4 border rounded"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="w-full p-2 mb-4 border rounded"
+          required
         />
-        <button className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Login</button>
+        {error && <p className="text-red-500 mb-2">{error}</p>}
+        <button type="submit" className="w-full bg-green-600 text-white py-2 rounded">
+          Login
+        </button>
       </form>
+      
     </div>
+    <Footer/>
+    </>
   );
 };
 
