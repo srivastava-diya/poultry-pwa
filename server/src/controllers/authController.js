@@ -2,12 +2,12 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import USER from '../models/User.js';
 
-// Register a new user (e.g., owner, supervisor, vet)
+
 export const registerUser = async (req, res) => {
   try {
     const { name, email, passwordHash:password, role, farmId } = req.body;
 
-    // Check if user already exists
+   
     const existingUser = await USER.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
@@ -22,7 +22,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-// Login user and issue JWT
+// Login and issue JWT
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -32,13 +32,12 @@ export const loginUser = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Compare password with hashed password
     const isMatch = await bcrypt.compare(password, user.passwordHash);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // Generate JWT token
+    //JWT token
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
@@ -58,5 +57,18 @@ export const getMe = async (req, res) => {
     res.json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+// Update current user (e.g., set farmId)
+export const updateMe = async (req, res) => {
+  try {
+    const allowed = {};
+    if (typeof req.body.farmId !== 'undefined') allowed.farmId = req.body.farmId;
+
+    const user = await USER.findByIdAndUpdate(req.user._id, allowed, { new: true }).select('-passwordHash');
+    res.json(user);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };
