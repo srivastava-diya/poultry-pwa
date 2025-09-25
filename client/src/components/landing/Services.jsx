@@ -8,8 +8,9 @@ import {
   Users,
   LayoutGrid,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
-// Service data organized for cleaner mapping
+// Service data using full text as keys
 const serviceItems = [
   {
     icon: <LayoutGrid size={40} className="text-green-600" />,
@@ -43,38 +44,42 @@ const serviceItems = [
   },
 ];
 
-const Services = () => (
-  <section id="services" className="py-20 px-6 md:px-16 bg-white">
-    <div className="max-w-7xl mx-auto">
-      <div className="text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800">
-          Everything You Need
-        </h2>
-        <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
-          From daily management to emergency alerts, our platform provides a complete solution for modern farming.
-        </p>
-      </div>
+const Services = () => {
+  const { t } = useTranslation();
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {serviceItems.map((service, index) => (
-          <div
-            key={index}
-            className="group flex flex-col items-center text-center p-8 bg-green-50/50 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-green-100 hover:-translate-y-2 transform transition-all duration-300 ease-in-out"
-          >
-            <div className="mb-5 bg-white p-4 rounded-full shadow-md">
-              {service.icon}
+  return (
+    <section id="services" className="py-20 px-6 md:px-16 bg-white">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800">
+            {t('Everything You Need')}
+          </h2>
+          <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
+            {t('From daily management to emergency alerts, our platform provides a complete solution for modern farming.')}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {serviceItems.map((service, index) => (
+            <div
+              key={index}
+              className="group flex flex-col items-center text-center p-8 bg-green-50/50 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-green-100 hover:-translate-y-2 transform transition-all duration-300 ease-in-out"
+            >
+              <div className="mb-5 bg-white p-4 rounded-full shadow-md">
+                {service.icon}
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                {t(service.title)}
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                {t(service.description)}
+              </p>
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              {service.title}
-            </h3>
-            <p className="text-gray-600 leading-relaxed">
-              {service.description}
-            </p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default Services;

@@ -1,15 +1,16 @@
 import api from "./httpClient";
 
-const API_URL = "/flocks";
+const API_URL = "/pigs";
 
-export const flockService = {
-  getFlocksByFarm: async (farmId) => {
+export const pigService = {
+  getPigHerdsByFarm: async (farmId) => {
     const res = await api.get(`${API_URL}/farm/${farmId}`);
     return res.data;
   },
-  createFlock: async (data) => {
+  createPigHerd: async (data) => {
     const res = await api.post(`${API_URL}`, data);
     return res.data;
   },
 };
+
 

@@ -21,6 +21,12 @@ export const AuthProvider = ({ children }) => {
   // Login
   const login = async (email, password) => {
     try {
+      // Clear any stale auth to avoid sending bad tokens during login flow
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setToken(null);
+      setUser(null);
+
       const data = await authService.login({ email, password });
       const token = data.token; // backend returns token
       setToken(token);
@@ -44,6 +50,15 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
   };
 
+  // Update user in local state/storage (e.g., after linking farmId)
+  const updateUser = (partial) => {
+    setUser((prev) => {
+      const updated = { ...(prev || {}), ...(partial || {}) };
+      localStorage.setItem("user", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   // Register
   const register = async ({ name, email, password, role, farmId }) => {
     try {
@@ -56,7 +71,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, register }}>
+    <AuthContext.Provider value={{ user, token, login, logout, register, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

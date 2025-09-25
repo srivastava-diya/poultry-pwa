@@ -8,6 +8,9 @@ import { AlertProvider } from "./context/AlertContext";
 import FarmList from "./pages/Farms/FarmList";
 import FarmDetails from "./pages/Farms/FarmDetails";
 import LandingPage from "./pages/LandingPage";
+import GroupLogs from "./pages/Logs/GroupLogs";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth();
@@ -18,11 +21,14 @@ function App() {
   return (
     <Router>
       <AlertProvider>
+        {/* ToastContainer at the root level */}
+        <ToastContainer position="top-center" autoClose={3000} />
+
         <Routes>
           {/* Public routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} /> {/* <-- added */}
+          <Route path="/register" element={<Register />} />
 
           {/* Protected routes */}
           <Route
@@ -46,6 +52,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <FarmDetails />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/logs/:animalType/:groupId"
+            element={
+              <ProtectedRoute>
+                <GroupLogs />
               </ProtectedRoute>
             }
           />

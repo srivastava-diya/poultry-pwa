@@ -3,17 +3,20 @@ import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import Navbar from "../../components/landing/Navbar";
 import Footer from "../../components/landing/Footer";
+import { User, Mail, Lock, Badge, UserCog } from "lucide-react";
+import {  useNavigate } from "react-router-dom";
 
 const Register = () => {
   const { register } = useAuth();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(""); // 🔹 renamed
+  const [password, setPassword] = useState("");
   const [role, setRole] = useState("owner");
-  const [farmId, setFarmId] = useState(""); // optional
+  const [farmId, setFarmId] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,8 +28,8 @@ const Register = () => {
       if (farmId.trim() !== "") payload.farmId = farmId;
 
       await register(payload);
-
-      alert("Registration successful! Please login.");
+      navigate('/login');
+    
       setName("");
       setEmail("");
       setPassword("");
@@ -41,70 +44,112 @@ const Register = () => {
 
   return (
     <>
-    <Navbar/>
+      <Navbar />
 
-    <div className="flex h-screen items-center justify-center bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow w-96">
-        <h2 className="text-2xl font-bold mb-6">Register</h2>
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-50 via-yellow-50 to-white px-4">
+        <div className="w-full max-w-md bg-white/80 backdrop-blur-lg rounded-2xl mt-15 shadow-xl p-8 transform transition-all duration-500 ">
+          <h2 className="text-3xl font-extrabold text-green-700 text-center mb-2">
+            Create Your Account
+          </h2>
+          <p className="text-gray-600 text-center mb-8 text-sm">
+            Join us to manage your farm with ease.
+          </p>
 
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {error && <p className="text-red-500 text-center">{error}</p>}
 
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full p-2 mb-4 border rounded"
-          required
-        />
+            {/* Name */}
+            <div className="relative">
+              <User className="absolute top-3 left-3 text-green-500" size={18} />
+              <input
+                type="text"
+                placeholder="Full Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-green-200 rounded-xl bg-green-50/60 focus:ring-2 focus:ring-green-400 outline-none"
+                required
+              />
+            </div>
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-2 mb-4 border rounded"
-          required
-        />
+            {/* Email */}
+            <div className="relative">
+              <Mail className="absolute top-3 left-3 text-green-500" size={18} />
+              <input
+                type="email"
+                placeholder="Email Address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-green-200 rounded-xl bg-green-50/60 focus:ring-2 focus:ring-green-400 outline-none"
+                required
+              />
+            </div>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 mb-4 border rounded"
-          required
-        />
+            {/* Password */}
+            <div className="relative">
+              <Lock className="absolute top-3 left-3 text-green-500" size={18} />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-green-200 rounded-xl bg-green-50/60 focus:ring-2 focus:ring-green-400 outline-none"
+                required
+              />
+            </div>
 
-        <input
-          type="text"
-          placeholder="Farm ID (optional)"
-          value={farmId}
-          onChange={(e) => setFarmId(e.target.value)}
-          className="w-full p-2 mb-4 border rounded"
-        />
+            {/* Farm ID */}
+            <div className="relative">
+              <Badge className="absolute top-3 left-3 text-green-500" size={18} />
+              <input
+                type="text"
+                placeholder="Farm ID (optional)"
+                value={farmId}
+                onChange={(e) => setFarmId(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-green-200 rounded-xl bg-green-50/60 focus:ring-2 focus:ring-green-400 outline-none"
+              />
+            </div>
 
-        <select
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          className="w-full p-2 mb-4 border rounded"
-        >
-          <option value="owner">Owner</option>
-          <option value="supervisor">Supervisor</option>
-          <option value="vet">Vet</option>
-        </select>
+            {/* Role */}
+            <div className="relative">
+              <UserCog
+                className="absolute top-3 left-3 text-green-500"
+                size={18}
+              />
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-green-200 rounded-xl bg-green-50/60 focus:ring-2 focus:ring-green-400 outline-none"
+              >
+                <option value="owner">Owner</option>
+                <option value="supervisor">Supervisor</option>
+                <option value="vet">Vet</option>
+              </select>
+            </div>
 
-        <button
-          type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded disabled:opacity-50"
-          disabled={loading}
-        >
-          {loading ? "Registering..." : "Register"}
-        </button>
-      </form>
-    </div>
+            {/* Button */}
+            <button
+              type="submit"
+              className="w-full py-3 px-4 rounded-xl text-white font-semibold bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 transition disabled:opacity-50"
+              disabled={loading}
+            >
+              {loading ? "Registering..." : "Create Account"}
+            </button>
+          </form>
 
-    <Footer/>
+          {/* Already have account */}
+          <p className="text-center text-sm text-gray-600 mt-6">
+            Already have an account?{" "}
+            <a
+              href="/login"
+              className="text-green-600 font-semibold hover:underline"
+            >
+              Log in
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <Footer />
     </>
   );
 };

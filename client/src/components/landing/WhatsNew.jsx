@@ -1,6 +1,6 @@
 import React from 'react';
 
-// Reusing the same SVG icons as they are clean and modern
+import { useTranslation } from "react-i18next";
 
 const DashboardIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -21,24 +21,27 @@ const HealthIcon = () => (
 );
 
 
-const WhatsNew = () => (
+const WhatsNew = () => {
+  const { t, i18n } = useTranslation();
+  return(
+    <>
   <section id="whatsnew" className="py-20 md:py-28 bg-gray-50"> {/* Retain bg-gray-50 for a subtle section break */}
     <div className="container mx-auto px-6 lg:px-8 max-w-7xl">
       
       {/* ====== Heading Section ====== */}
       <div className="text-center mb-16">
         <h3 className="text-yellow-400 font-extrabold tracking-wider uppercase mb-3"> {/* Slightly deeper yellow */}
-          Our Latest Updates
+          {t("Our Latest Updates")}
         </h3>
         <h2 className="text-4xl md:text-5xl font-extrabold text-green-700 mb-4"> {/* Darker, richer green */}
-          Innovations in Farm Tech
+          {t("Innovations in Farm Tech")}
         </h2>
         <p className="max-w-3xl mx-auto text-lg text-gray-600">
-          We're constantly improving to bring you the best tools for farm management. Here are our latest features designed to boost your productivity and biosecurity.
+          {t("We're constantly improving to bring you the best tools for farm management. Here are our latest features designed to boost your productivity and biosecurity.")}
         </p>
       </div>
 
-      {/* ====== Features Grid ====== */}
+      {/*Features Grid*/}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         
         {/* Card 1: Real-Time Dashboards */}
@@ -46,9 +49,9 @@ const WhatsNew = () => (
           <div className="bg-green-50 text-green-700 rounded-full w-18 h-18 flex items-center justify-center mb-6 p-2"> {/* Muted green background for icon, slightly larger */}
             <DashboardIcon />
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-3">Real-Time Dashboards</h3>
-          <p className="text-gray-600 leading-relaxed"> {/* Added leading-relaxed for better line spacing */}
-            Monitor flock health, feed levels, and environmental data instantly with our new customizable analytics dashboards.
+          <h3 className="text-2xl font-bold text-gray-800 mb-3">{t("Real-Time Dashboards")}</h3>
+          <p className="text-gray-600 leading-relaxed"> 
+            {t("Monitor flock health, feed levels, and environmental data instantly with our new customizable analytics dashboards.")}
           </p>
         </div>
 
@@ -57,9 +60,9 @@ const WhatsNew = () => (
           <div className="bg-green-50 text-green-700 rounded-full w-18 h-18 flex items-center justify-center mb-6 p-2">
             <MobileIcon />
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-3">Enhanced Mobile Support</h3>
+          <h3 className="text-2xl font-bold text-gray-800 mb-3">{t("Enhanced Mobile Support")}</h3>
           <p className="text-gray-600 leading-relaxed">
-            Manage your farm from anywhere with a faster, more intuitive mobile experience, now with offline support.
+           {t(" Manage your farm from anywhere with a faster, more intuitive mobile experience, now with offline support.")}
           </p>
         </div>
 
@@ -68,15 +71,17 @@ const WhatsNew = () => (
           <div className="bg-green-50 text-green-700 rounded-full w-18 h-18 flex items-center justify-center mb-6 p-2">
             <HealthIcon />
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-3">Smart Health Alerts</h3>
+          <h3 className="text-2xl font-bold text-gray-800 mb-3">{t("Smart Health Alerts")}</h3>
           <p className="text-gray-600 leading-relaxed">
-            Get proactive notifications and health predictions powered by AI to prevent disease outbreaks before they start.
+            {t("Get proactive notifications and health predictions powered by AI to prevent disease outbreaks before they start.")}
           </p>
         </div>
 
       </div>
     </div>
   </section>
+  </>
 );
+}
 
 export default WhatsNew;

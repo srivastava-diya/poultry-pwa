@@ -1,7 +1,6 @@
 // src/context/AlertContext.js
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { alertService } from "../services/alertService.js"; 
-// make sure you have this service to call your backend APIs
 
 const AlertContext = createContext();
 

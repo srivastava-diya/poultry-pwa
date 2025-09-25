@@ -1,10 +1,15 @@
 import React from 'react';
 import image13 from "../../assets/13.jpg"
 import image15 from "../../assets/15.jpg"
+import { useTranslation } from "react-i18next";
 
 
-const About = () => (
-  <section id="about" className="py-20 md:py-28 bg-white">
+const About = () => {
+
+  const { t, i18n } = useTranslation();
+  return(
+    <>
+    <section id="about" className="py-20 md:py-28 bg-white">
     <div className="container mx-auto px-6 lg:px-8 max-w-7xl">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         
@@ -26,28 +31,27 @@ const About = () => (
 
         <div className="text-center lg:text-left">
           <h3 className="text-yellow-400 font-extrabold tracking-wider uppercase mb-3">
-            Who We Are
+            {t("Who We Are")}
           </h3>
           <h2 className="text-4xl md:text-5xl font-extrabold text-green-800 mb-6 leading-tight">
-            Smarter Farming, Healthier Flocks.
+            {t("Smarter Farming, Healthier Flocks.")}
           </h2>
           <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-            PoultryNexus is designed to simplify farm management and improve
-            biosecurity. With real-time data, collaboration, and smart insights,
-            we empower owners, supervisors, and vets to keep poultry healthier and
-            farms more productive.
+            {t("PoultryNexus is designed to simplify farm management and improve biosecurity. With real-time data, collaboration, and smart insights, we empower owners, supervisors, and vets to keep poultry healthier and farms more productive.")}
           </p>
           <a
             href="#features"
             className="inline-block bg-green-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-green-700 transition-transform transform hover:scale-105"
           >
-            Discover Our Features
+            {t("Discover Our Features")}
           </a>
         </div>
 
       </div>
     </div>
   </section>
-);
+    </>
+  )
+};
 
 export default About;

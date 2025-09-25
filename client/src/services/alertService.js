@@ -1,30 +1,15 @@
 // src/services/alertService.js
-import axios from "axios";
+import api from "./httpClient";
 
-const API_URL = "http://localhost:8000/api/alerts"; // base URL
+const API_URL = "/alerts";
 
 export const alertService = {
-  // Get alerts by zipCode
-  getAlerts: async (zipCode) => {
-    const res = await axios.get(`${API_URL}/${zipCode}`);
+  getAlertsByZip: async (zipCode) => {
+    const res = await api.get(`${API_URL}/${zipCode}`);
     return res.data;
   },
-
-  // Create new alert (Vet only)
-  createAlert: async (data) => {
-    const res = await axios.post(API_URL, data);
-    return res.data;
-  },
-
-  // Mark alert as read
-  markAsRead: async (id) => {
-    const res = await axios.patch(`${API_URL}/${id}/read`);
-    return res.data;
-  },
-
-  // Delete alert
-  deleteAlert: async (id) => {
-    const res = await axios.delete(`${API_URL}/${id}`);
+  triggerAlert: async (data) => {
+    const res = await api.post(`${API_URL}/trigger`, data);
     return res.data;
   },
 };
