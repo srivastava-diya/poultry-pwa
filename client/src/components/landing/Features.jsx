@@ -1,4 +1,4 @@
-// src/components/landing/Features.jsx
+
 import React from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import dashboard_img from "../../assets/dashboard.png";
@@ -7,7 +7,7 @@ import roles_img from "../../assets/roles.jpeg";
 import quiz_img from "../../assets/quiz.jpeg";
 import { useTranslation } from 'react-i18next';
 
-// Feature data with full text as keys
+
 const featureData = [
   {
     title: 'Real-Time Tracking & Analytics',
@@ -76,7 +76,7 @@ const Features = () => {
               key={index}
               className="flex flex-col md:flex-row items-center gap-12 md:gap-16"
             >
-              {/* Image Section */}
+              
               <div className={`w-full md:w-1/2 ${index % 2 !== 0 ? 'md:order-2' : ''}`}>
                 <img
                   src={feature.image}
@@ -85,7 +85,7 @@ const Features = () => {
                 />
               </div>
 
-              {/* Text Content Section */}
+              
               <div className="w-full md:w-1/2">
                 <h3 className="text-3xl font-bold text-gray-900 mb-4">
                   {t(feature.title)}

@@ -1,4 +1,4 @@
-// src/components/landing/Hero.jsx
+
 "use client";
 
 import React from "react";
@@ -20,7 +20,7 @@ const Hero = () => {
   const { t, i18n } = useTranslation();
   return (
     <ImagesSlider className="h-screen relative" images={images} >
-      {/* Foreground content */}
+      
       <motion.div
         initial={{ opacity: 0, y: -80 }}
         animate={{ opacity: 1, y: 0 }}

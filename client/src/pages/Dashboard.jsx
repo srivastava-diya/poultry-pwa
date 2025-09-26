@@ -111,7 +111,6 @@ const Dashboard = () => {
         setAlerts([]);
       }
 
-      // default group selection
       const defaultGroupId = (flocksRes?.[0]?._id) || (pigsRes?.[0]?._id) || (cattleRes?.[0]?._id) || "";
       setSelectedGroup(defaultGroupId);
       setSelectedType(flocksRes?.[0]?._id ? "poultry" : pigsRes?.[0]?._id ? "pig" : cattleRes?.[0]?._id ? "cattle" : "poultry");
@@ -130,7 +129,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     loadData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.farmId]);
 
   return (
