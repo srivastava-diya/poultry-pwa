@@ -8,7 +8,7 @@ import { AlertProvider } from "./context/AlertContext";
 import FarmList from "./pages/Farms/FarmList";
 import FarmDetails from "./pages/Farms/FarmDetails";
 import LandingPage from "./pages/LandingPage";
-import GroupLogs from "./pages/Logs/GroupLogs";
+import GroupLogs from "./pages/Logs/GroupLogs.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
